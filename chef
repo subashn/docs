@@ -1,0 +1,79 @@
+   8  wget https://packages.chef.io/files/stable/chefdk/1.0.3/el/7/chefdk-1.0.3-1.el7.x86_64.rpm
+    9  ls
+   10  rpm -ivh chefdk-1.0.3-1.el7.x86_64.rpm
+   11  knife
+   12  ls
+   13  cd /tmp/
+   14  ls
+   15  cd
+   16  unzip /tmp/chef-starter.zip
+   17  ls
+   18  cd chef-repo/
+   19  ls
+   20  knife --help
+   21  knife node list
+   22  cd
+   23  knife node list
+   24  cd -
+   25  knife node list
+   26  ls -a
+   27  cd .chef/
+   28  ls
+   29  vim knife.rb
+   30  cd ..
+   31  knife bootstrap --help
+   32  vim ec2.pem
+   33  ls -lec
+   34  ls -l ec2.pem
+   35  chmod 600 ec2.pem
+   36  knife bootstrap -i ec2.pem -u ec2-user 172.31.26.56
+   37  knife bootstrap -i ec2.pem -u ec2-user 172.31.26.56 -N node1
+   38  ssh 172.31.26.56
+   39  knife bootstrap -i ec2.pem -x ec2-user 172.31.26.56 -N node1
+   40  knife bootstrap -i ec2.pem -x ec2-user 172.31.26.56 -N node1 --sudo
+   41  knife node list
+   42  knife node list node1
+   43  knife node list --help
+   44  knife node list -V
+   45  knife node list node1 -V
+   46  knife node --help
+   47  knife node show node1
+   48  knife cookbook --help
+   49  knife cookbook create httpd
+   50  ls
+   51  cd cookbooks/
+   52  ls
+   53  cd httpd/
+   54  ls
+   55  cd recipes/
+   56  ls
+   57  vim default.rb
+   58  pwd
+   59  cat default.rb
+   60  cd ..
+   61  knife runlist --help
+   62  knife role --help
+   63  knife role run_list add httpd node1
+   64  knife role run_list add node1 httpd
+   65  knife cookbook upload httpd
+   66  knife role run_list add node1 httpd
+   67  knife role run_list add node1 "recipe[httpd]"
+   68  knife role run_list add node1 "recipe[httpd::default]"
+   69  knife node show node1
+   70  knife cookbook create users
+   71  ls
+   72  cd users/
+   73  ls
+   74  cd recipes/
+   75  ls
+   76  vim default.rb
+   77  cd ..
+   78  knife cookbook upload users
+   79  knife node --help
+   80  knife node run_list add node1 "recipe[users]"
+   81  knife node show node1
+   82  vim users/recipes/default.rb
+   83  cd ..
+   84  knife cookbook upload users
+   85  knife bootstrap -i ec2.pem -x ec2-user 172.31.26.55 -N node1 --sudo
+   86  knife bootstrap -i ec2.pem -x ec2-user 172.31.26.55 -N node2 --sudo
