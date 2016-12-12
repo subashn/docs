@@ -1,0 +1,22 @@
+1) Disable Selinux 
+
+vi /etc/selinux/config
+
+--#Modify the following line.
+SELINUX=enforcing
+--#Change TO
+SELINUX=disabled
+
+2) Disable Firewall
+
+systemctl disable firewalld
+
+3) yum install wget zip unzip bzip2 net-tools vim -y
+
+!!!!!! Reboot the server once.
+
+# init 6
+or
+# reboot
+or
+# shutdown -r
