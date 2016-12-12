@@ -1,0 +1,36 @@
+1) Disable Selinux 
+
+vi /etc/selinux/config
+
+--#Modify the following line.
+SELINUX=enforcing
+--#Change TO
+SELINUX=disabled
+
+2) Disable Firewall
+
+systemctl disable firewalld
+
+3) Enable SSH Connection
+
+vi /etc/ssh/sshd_config
+
+	a) Enable Password Authentication
+	--# Modify the following line
+	PasswordAuthentication no
+	--# Change to 
+	PasswordAuthentication yes
+
+(Optional) b) Enable Root Login
+	--# Modify the follwing line
+	#PermitRootLogin yes
+	--# Change to 
+	PermitRootLogin yes (Remove # character)
+
+!!!!!! Reboot the server once.
+
+# init 6
+or
+# reboot
+or
+# shutdown -r
