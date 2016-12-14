@@ -1,0 +1,21 @@
+ssh 172.31.60.235 -l ec2-user -i ec2.pem <<EOF
+> /tomcat/instance1/bin/shutdown.sh
+> rm -rf /tomcat/instance1/temp/* /tomcat/instance1/work/*
+> /tomcat/instance1/bin/startup.sh
+> EOF
+#### Dont use character > before the commands in ssh.
+
+
+
+### Also you can run a script on machine2 from machine1, Also the script can be on machine1.
+## Create a scipt on Machine1
+
+# cat ssh-tomcat.sh
+#!/bin/bash
+
+/tomcat/instance1/bin/shutdown.sh
+rm -rf /tomcat/instance1/temp/* /tomcat/instance1/work/*
+/tomcat/instance1/bin/startup.sh
+
+## Run the script from machine 1 using the following syntax:
+ ssh 172.31.60.235 -l ec2-user -i ec2.pem 'bash -s' <ssh-tomcat.sh
