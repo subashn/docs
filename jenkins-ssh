@@ -1,0 +1,4 @@
+/tomcat/apache-tomcat-9.0.0.M15/bin/shutdown.sh
+ rm -rf /tomcat/apache-tomcat-9.0.0.M15/webapps/java* /tomcat/apache-tomcat-9.0.0.M15/temp/* /tomcat/apache-tomcat-9.0.0.M15/work/*
+wget http://104.154.151.45:8081/repository/maven-snapshots/org/javaee7/sample/javaee7-simple-sample/1.15-SNAPSHOT/javaee7-simple-sample-1.15-20161215.040002-1.war -O /tomcat/apache-tomcat-9.0.0.M15/webapps/java7.war
+/tomcat/apache-tomcat-9.0.0.M15/bin/startup.sh
