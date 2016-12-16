@@ -1,0 +1,23 @@
+Command Substiution:
+	Define the data of a variable using command output
+
+	Syntax : var=$(commands)
+
+	Ex: DATE=$(date +%F)
+	    echo %$DATE
+
+Arithimatic Substution:
+	Define data of a variable using arithematic operators
+	+ -> addition
+	- -> Subtraction
+	* -> Multi
+	/ -> Div
+	% -> Reminder
+
+	Syntax: var=$(( expression ))
+
+	Ex: ADD=$((10+20))
+
+http://10.128.0.7:8081/service/siesta/rest/v1/script?r=maven-snapshots&g=org.javaee7.sample&a=javaee7-simple-sample&v=LATEST
+
+wet http://10.128.0.7/svn/adin/new --user=$username --password=$password -O /tmp/out1
