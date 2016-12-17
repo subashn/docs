@@ -18,6 +18,42 @@ Arithimatic Substution:
 
 	Ex: ADD=$((10+20))
 
-http://10.128.0.7:8081/service/siesta/rest/v1/script?r=maven-snapshots&g=org.javaee7.sample&a=javaee7-simple-sample&v=LATEST
-
 wet http://10.128.0.7/svn/adin/new --user=$username --password=$password -O /tmp/out1
+
+
+---------------------
+
+Backup in Jenkins
+ 
+1) Login to  Jenkins -> Manage Jenkins -> Plugins > (search) backup
+2) Select backup plugin and then install and restart 
+3) Manage jenkins -> backup Manager -> Setup
+	Backup Directory : /backup
+	select all data to backup
+
+4) Loguin to server using ssh
+	mkdir /backup
+	chown jenkins /backup
+
+5) Manage Jenkins -> Backup Manager -> Backup Hudson Configuration
+
+
+Restoring in Jenkins
+
+1) Shutdown Jenkins
+2) Move jenkins home directory
+	mv /var/lib/jenkins /var/lib/old_jenkins
+3) Extract the backup.
+	cd /var/lib
+	mkdir jenkins
+	cd jenkins
+	tar xzf /backup/backup.tar.gz
+	chown jenkins:jenkins /var/lib/jenkins -R
+4) Start Jenkins
+
+
+
+wget -O file.war "http://172.31.6.196:8081/nexus/service/local/artifact/maven/redirect?r=snapshots&g=org.javaee7.sample&a=javaee7-simple-sample&v=LATEST&p=war"
+
+
+
