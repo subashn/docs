@@ -1,0 +1,25 @@
+cd /opt
+wget http://redrockdigimark.com/apachemirror//httpd/httpd-2.4.23.tar.gz
+tar xzf httpd-2.4.23.tar.gz
+cd httpd-2.4.23
+
+### Try these.
+./configure --help
+###
+
+./configure --prefix=/opt/apache1
+## The above command will definetly fail, Install the following packages
+yum install apr-devel.x86_64 apr-util-devel.x86_64 gcc pcre-devel.x86_64 -y
+##
+
+./configure --prefix=/opt/apache1
+make clean
+make
+make install
+
+
+Taks to try:
+--------------
+
+1) Enable Virtual Hosting in source installation
+2) Enable HTTPS in source. 
