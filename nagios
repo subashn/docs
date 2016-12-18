@@ -1,0 +1,201 @@
+## Install Nagios (core)
+-----------------------------------
+
+yum install gcc glibc glibc-common gd gd-devel make net-snmp openssl-devel xinetd unzip httpd php -y 
+
+
+useradd nagios
+groupadd nagcmd
+usermod -a -G nagcmd nagios
+usermod -a -G nagcmd apache
+
+cd /opt
+wget https://assets.nagios.com/downloads/nagioscore/releases/nagios-4.2.4.tar.gz
+tar xzf nagios-4.2.4.tar.gz
+
+cd nagios-4.2.4
+./configure --with-command-group=nagcmd
+make all
+make install
+make install-commandmode
+make install-init
+make install-config
+make install-webconf
+
+
+Install Nagios Plugins
+--------------------------
+
+cd /opt
+wget http://nagios-plugins.org/download/nagios-plugins-2.1.4.tar.gz
+tar xzf nagios-plugins-2.1.4.tar.gz
+./configure --with-nagios-user=nagios --with-nagios-group=nagios --with-openssl
+make 
+make install
+
+
+##Installing Nagios NRPE
+----------------------
+cd /opt
+wget https://sourceforge.net/projects/nagios/files/nrpe-2.x/nrpe-2.15/nrpe-2.15.tar.gz
+tar xzf nrpe-2.15.tar.gz
+
+cd nrpe-2.15
+./configure --enable-command-args --with-nagios-user=nagios --with-nagios-group=nagios --with-ssl=/usr/bin/openssl --with-ssl-lib=/usr/lib/x86_64-linux-gnu
+make all
+make install
+make install-xinetd
+make install-daemon-config
+
+vi /etc/xinetd.d/nrpe
+## Modify the following line
+allow_from = 127.0.0.1
+
+## to 
+
+allow_from = 127.0.0.1 <IP Address of Nagios Server>
+
+systemctl restart xinetd
+
+
+COnfigure nagios:
+--------------------------------
+vi /usr/local/nagios/etc/nagios.cfg
+####Now find an uncomment this line by deleting the #:
+#cfg_dir=/usr/local/nagios/etc/servers
+
+mkdir /usr/local/nagios/etc/servers
+
+
+Configure Nagios Command:
+--------------------------
+
+vi /usr/local/nagios/etc/objects/commands.cfg 
+##Add the below content
+
+define command{
+        command_name check_nrpe
+        command_line $USER1$/check_nrpe -H $HOSTADDRESS$ -c $ARG1$
+}
+
+
+
+Configure Apache:
+------------------------------
+htpasswd -c /usr/local/nagios/etc/htpasswd.users nagiosadmin
+
+
+systemctl start nagios.service
+systemctl restart httpd.service
+systemctl enable nagios
+
+
+Accessing the Nagios Web Interface:
+------------------------------------------
+http://192.168.1.1/nagios 
+## Change the IP address of nagios server
+
+
+
+####################################################################
+
+Install NRPE on Node:
+----------------------
+yum install epel-release -y
+yum install nrpe nagios-plugins-all -y
+vi /etc/nagios/nrpe.cfg
+## Modify the following line
+allowed_hosts=127.0.0.1,<IPADRESS of NAGIOS SERVER>
+
+systemctl start nrpe.service
+systemctl enable nrpe.service
+
+
+####################################################################
+Add the above server node in nagios server:
+
+### create a file in following directory.
+
+/usr/local/nagios/etc/servers/<hostname-of-node>.cfg
+
+
+###Add the follwoing content
+
+define host {
+        use                             linux-server
+        host_name                       <keep hostname of node>
+        alias                           My first Apache server
+        address                         <IP adddress of node>
+        max_check_attempts              5
+        check_period                    24x7
+        notification_interval           30
+        notification_period             24x7
+}
+
+
+define service {
+        use                             generic-service
+        host_name                       <keep hostname of node>
+        service_description             PING
+        check_command                   check_ping!100.0,20%!500.0,60%
+}
+
+define service {
+        use                             generic-service
+        host_name                       <keep hostname of node>
+        service_description             PING
+        check_command                   check_ping!100.0,20%!500.0,60%
+}
+
+
+systemctl reload nagios.service
+
+
+
+=======================================================================
+---->check_disk_space<-------------
+#!/bin/bash
+
+USAGE() {
+        echo "Usage :: $0 -w warning-level -c critical-level -p mount-to-check"
+        exit 1
+}
+
+while getopts w:c:p: opt; do
+case $opt in
+        w) war=$OPTARG ;;
+        c) cri=$OPTARG ;;
+        p) path=$OPTARG ;;
+        *) USAGE ;;
+esac
+done
+
+if [ -z "$war" -o -z "$cri" -o -z "$path" ]; then
+        USAGE
+fi
+
+USED=$(df -h $path |grep  Filesystem -v |awk '{print $5}' |sed -e 's/%//')
+if [ $USED -gt $cri ]  ; then
+        echo "Critical :: $path Used $USED %"
+        exit 2
+elif [ $USED -gt $war ]  ; then
+        echo "Warning :: $path Used $USED %"
+        exit 1
+else
+        echo "Disk OK :: $path used $USED %"
+        exit 0
+fi
+
+
+=====================================================================
+------>check_jenkins<--------
+#!/bin/bash
+
+PROC=$(ps -ef |grep jenkins|grep java |grep -v grep  |wc -l)
+if [ $PROC -ge 1 ]; then
+        echo "Jenkins OK :: Running"
+        exit 0
+else
+        echo "Jenkins Critical :: Not Running"
+        exit 2
+fi
