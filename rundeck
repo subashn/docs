@@ -1,0 +1,66 @@
+Installation of RunDeck:
+--------------------------
+
+Go to rundeck.org
+Click on "Download Rundeck"
+
+GO to Server CLI
+1) yum install java -y
+2) rpm -Uvh http://repo.rundeck.org/latest.rpm 
+3) yum install rundeck -y
+4) cd /etc/rundeck
+5) Update rundeck-config.properties file
+
+From: grails.serverURL=http://localhost:4440
+To : grails.serverURL=http://173.255.114.228:4440
+
+### Note: 173.255.114.228  is your server public IP address
+
+6) systemctl start rundeckd
+
+
+Goto  browser give 173.255.114.228:4440
+### Note: 173.255.114.228  is your server public IP address
+
+
+Default username and password for rundeck instance is 
+
+Username : admin
+Password : admin
+
+
+
+Configure New Project for RunDeck:
+-------------------------------------
+
+Click on "New Project" -> Project Name -> "Create"
+
+next is adding nodes.
+
+vi /var/rundeck/projects/{proj name}/etc/resources.xml
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <node name="tomcat1" description="Tomcat node" tags="" hostname="10.128.0.3" osArch="amd64" osFamily="unix" osName="Linux" osVersion="3.10.0-514.2.2.el7.x86_64" username="admin"/>
+</project>
+
+
+Go to Commands section inside rundeck project.
+
+give the filter to get the list of hosts.
+	Ex:  .* -> All hosts
+	     osName: Linux -> All Linux machines with osName atrribite in resources.xml
+	     hostnae: 10.* -> to get all hostnames starting with 10.x.x.x
+give command to run and click on "Run"
+
+
+
+Add ssh keys inside your Rundeck:
+
+Click on Settings ICON on Right side top.
+navigate to "key Storage" -> "Add or Upload key "
+
+Goto Project then clicjk on settings then click on "Simple Configuration"
+Upate "SSH key Storage Path" -> Clik on select and select your key
