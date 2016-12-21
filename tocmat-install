@@ -1,0 +1,62 @@
+Installing through YUM:
+---------------------------
+
+yum install tomcat -y
+
+cd /var/lib/tomcat/webapps
+mkdir demo
+cd demo/
+vim index.html 
+	Hello World
+systemctl start tomcat 
+
+#### Access the server with http://IP:8080/demo
+
+
+cd /var/lib/tomcat/webapps
+wget https://tomcat.apache.org/tomcat-8.0-doc/appdev/sample/sample.war
+Access the server with http://IP:8080/sample
+
+
+Standard Procedure for deploying a new war file:
+------------------------------------------------
+1) Shutdown the tomcat instance
+2) Remove any old war files
+3) Deploy the new warfile
+4) Start the tomcat instance
+
+
+Install through Distribution:
+-----------------------------
+
+Advantages:
+	1) Run multiple tomcat instances
+	2) You can host different applications in different instances, so that if one
+	   instance goes down other will still be up.
+
+
+# Dowload the distibution.  (http://tomcat.apache.org)
+wget http://redrockdigimark.com/apachemirror/tomcat/tomcat-9/v9.0.0.M15/bin/apache-tomcat-9.0.0.M15.tar.gz
+tar xzf apache-tomcat-9.0.0.M15.tar.gz
+mv apache-tomcat-9.0.0.M15 tomcat1
+tar xzf apache-tomcat-9.0.0.M15.tar.gz
+mv apache-tomcat-9.0.0.M15 tomcat2
+
+Change the port number under tomcat2.
+Filename : /root/tomcat2/conf/server.xml
+	# Change the number "8" to "9" in 5 locations.
+	  8005 -> 9005
+	  8080 -> 9090
+          8443 -> 9443
+          8009 -> 9009
+          8443 -> 9443
+
+
+You can start tomcat instance.
+/root/tomcat1/bin/startup.sh
+/root/tomcat2/bin/startup.sh
+
+
+Verify the logs files:
+tail /root/tomcat1/catalina*.log
+tail /root/tomcat2/catalina*.log
