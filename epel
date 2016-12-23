@@ -1,0 +1,18 @@
+Verify the OS you have in your server, based on that you proceed with the installation.
+
+In case if it is CentOS7, then run the following command
+  ## Run these commands as root user
+  1. mkdir /etc/yum.repos.d/backup
+  2. mv /etc/yum.repos.d/*.repo /etc/yum.repos.d/backup
+  3. yum clean all
+  4. rpm -ivh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm --force
+  5. yum list all
+  
+  
+In case if your OS is CentOS6 then run the following commands.
+  ## Run these commands as root user
+  1. mkdir /etc/yum.repos.d/backup
+  2. mv /etc/yum.repos.d/*.repo /etc/yum.repos.d/backup
+  3. yum clean all
+  4. rpm -ivh http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm --force
+  5. yum list all
