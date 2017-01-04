@@ -1,0 +1,32 @@
+    1  sestatus
+    2  https://raw.githubusercontent.com/versionit/docs/master/vm-init.sh |bash
+    3  curl https://raw.githubusercontent.com/versionit/docs/master/vm-init.sh |bash
+    4  sestatus
+    5  init 0
+    6  sudo rpm --import "https://sks-keyservers.net/pks/lookup?op=get&search=0xee6d536cf7dc86e2d7d56f59a178ac6c6238f52e"
+    7  curl -SLf https://packages.docker.com/1.12/install.sh | sh
+    8  systemctl enable docker
+    9  systemctl start docker
+   10  docker ps
+   11  docker ps -a
+   12  docker pull mariadb
+   13  ls
+   14  docker images
+   15  docker run -d mariadb
+   16  docker ps
+   17  docker ps -a
+   18  docker logs 46be4aff6310
+   19  docker run -e MYSQL_ROOT_PASSWORD=root123 -d mariadb
+   20  docker logs `docker ps -l -q`
+   21  docker ps
+   22  netstat -lntp
+   23  man docker run
+   24  docker run --link d1434beca5a4:centos centos bash
+   25  docker run -it --link d1434beca5a4:centos centos bash
+   26  yum list all |grep maria
+   27  docker run -it  centos bash
+   28  docker run -it --link d1434beca5a4:centos centos bash
+   29  docker run -it --link d1434beca5a4:mysql centos bash
+   30  ip a
+   31  docker run --rm -it --name ucp -v /var/run/docker.sock:/var/run/docker.sock  docker/ucp install   --host-address 10.128.0.4 --interactive
+   32  history
