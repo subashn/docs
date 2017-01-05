@@ -1,0 +1,28 @@
+    1  sestatus
+    2  https://raw.githubusercontent.com/versionit/docs/master/vm-init.sh |bash
+    3  curl https://raw.githubusercontent.com/versionit/docs/master/vm-init.sh |bash
+    4  sestatus
+    5  init 0
+    6  systemctl status docker
+    7  ps -ef |grep docker
+    8  systemctl stop docker
+    9  ps -ef |grep docker
+   10  /usr/bin/dockerd --insecure-registry 10.128.0.4:443
+   11  nohup /usr/bin/dockerd --insecure-registry 10.128.0.4:443  &
+   12  ls -ltr
+   13  cat nohup.out
+   14  ps -ef |grep dock
+   15  docker login -u admin -p password 10.128.0.4:443
+   16  docker pull centos
+   17  docker run -it centos bash
+   18  mkdir httpd
+   19  cd httpd/
+   20  ls
+   21  vim Dockerfile
+   22  docker build -t 10.128.0.4:443/admin/httpd
+   23  docker build -t 10.128.0.4:443/admin/httpd .
+   24  docker images
+   25  docker push 10.128.0.4:443/admin/httpd
+   26  history
+[root@instance-1 httpd]#
+
