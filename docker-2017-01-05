@@ -1,4 +1,23 @@
-    1  sestatus
+Setup Docker UCP + DTR:
+------------------------------------------------
+
+curl -SLf https://packages.docker.com/1.12/install.sh | sh
+docker run --rm -it --name ucp \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  docker/ucp install -i \
+  --host-address 10.128.0.9 (Ip address of server)
+
+https://10.128.0.9
+
+Install DTR:
+------------------------------------------------
+docker run -it --rm docker/dtr install   --dtr-external-url https://10.128.0.13   --ucp-node dtr.c.demos2-156612.internal   --ucp-username admin   --ucp-insecure-tls   --ucp-url https://10.128.0.9
+ 
+ 
+ Docker Client to accept certificates:
+ ------------------------------------------------
+ 
+ 1  sestatus
     2  https://raw.githubusercontent.com/versionit/docs/master/vm-init.sh |bash
     3  curl https://raw.githubusercontent.com/versionit/docs/master/vm-init.sh |bash
     4  sestatus
