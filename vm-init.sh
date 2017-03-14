@@ -1,5 +1,7 @@
 #!/bin/bash
 
+curl https://raw.githubusercontent.com/versionit/docs/master/ps1.sh -O /etc/profile.d/ps1.sh
+chmod +x /etc/profile.d/ps1.sh
 if [ $(rpm -qa |grep ^base |awk -F . '{print $(NF-1)}') = "el6" ]; then 
     sed -i -e '/^SELINUX/ c SELINUX=disabled' /etc/selinux/config   
     service iptables off
