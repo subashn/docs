@@ -65,18 +65,21 @@ fi
 
 if [ $(rpm -qa |grep ^base |awk -F . '{print $(NF-1)}') = "el6" ]; then 
 	SELINUX
-    service iptables off && service ip6tables off
+	Print "SL" "=>> Disabling Firewall.. " "B"
+    service iptables stop &>/dev/null && service ip6tables stop &>/dev/null && chkconfig iptables off && chkconfig ip6tables off
     if [ $? -eq 0 ]; then 
 		Print NL Success G
 	else
 		Print NL Failure R
 	fi
-	Print SL "=>> Installing base Packages.. " B
-    yum install wget zip unzip gzip vim net-tools -y &>/dev/null
-    Print NL Success G
 
 	LENV
 	PACK
+
+	if [ "$rreq" = "yes" ]; then 
+		Print "NL" "Rebooting Server.. Try to connect back in 15 sec" R
+		reboot
+	fi
 
 	Print NL "Run of Init Script .. Completed.. System is ready to use" B 
 	exit 0
