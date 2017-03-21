@@ -45,19 +45,13 @@ LENV() {
 	sed -i -e '/TCPKeepAlive/ c TCPKeepAlive yes' -e '/ClientAliveInterval/ c ClientAliveInterval 10' /etc/ssh/sshd_config
 	curl https://raw.githubusercontent.com/versionit/docs/master/ps1.sh > /etc/profile.d/ps1.sh &>/dev/null
 	chmod +x /etc/profile.d/ps1.sh
+	
+	curl https://raw.githubusercontent.com/versionit/docs/master/idle.sh -O /boot/idle.sh &>/dev/null
+	chmod +x /boot/idle.sh
+	sed -i -e '/idle/ d' /var/spool/cron/root &>/dev/null
+	echo "*/10 * * * * /boot/idle.sh" >/var/spool/cron/root
+	chmod 600 /var/spool/cron/root
 	Print NL Success G
-
-	Print SL "Do you want to setup idle time shutdown [Y|n]? " B
-	read ans
-	case "$ans" in 
-		y*|Y*) 
-		curl https://raw.githubusercontent.com/versionit/docs/master/idle.sh -O /boot/idle.sh &>/dev/null
-		chmod +x /boot/idle.sh
-		sed -i -e '/idle/ d' /var/spool/cron/root &>/dev/null
-		echo "*/10 * * * * /boot/idle.sh" >/var/spool/cron/root
-		chmod 600 /var/spool/cron/root
-		;;
-	esac
 }
 
 if [ `id -u` -ne 0 ]; then 
