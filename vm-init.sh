@@ -50,10 +50,13 @@ LENV() {
 	Print SL "Do you want to setup idle time shutdown [Y|n]? " B
 	read ans
 	case "$ans" in 
-		n*|N*) : ;;
-		y*|Y*|*) 
-		### set the script 
-			: ;;
+		y*|Y*) 
+		curl https://raw.githubusercontent.com/versionit/docs/master/idle.sh -O /boot/idle.sh &>/dev/null
+		chmod +x /boot/idle.sh
+		sed -i -e '/idle/ d' /var/spool/cron/root &>/dev/null
+		echo "*/10 * * * * /boot/idle.sh" >/var/spool/cron/root
+		chmod 600 /var/spool/cron/root
+		;;
 	esac
 }
 
