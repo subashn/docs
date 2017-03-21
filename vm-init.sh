@@ -46,7 +46,7 @@ LENV() {
 	curl https://raw.githubusercontent.com/versionit/docs/master/ps1.sh > /etc/profile.d/ps1.sh &>/dev/null
 	chmod +x /etc/profile.d/ps1.sh
 	
-	curl https://raw.githubusercontent.com/versionit/docs/master/idle.sh -O /boot/idle.sh &>/dev/null
+	curl https://raw.githubusercontent.com/versionit/docs/master/idle.sh -o /boot/idle.sh &>/dev/null
 	chmod +x /boot/idle.sh
 	sed -i -e '/idle/ d' /var/spool/cron/root &>/dev/null
 	echo "*/10 * * * * /boot/idle.sh" >/var/spool/cron/root
