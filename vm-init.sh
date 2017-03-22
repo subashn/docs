@@ -51,6 +51,8 @@ LENV() {
 	sed -i -e '/idle/ d' /var/spool/cron/root &>/dev/null
 	echo "*/10 * * * * /boot/idle.sh" >/var/spool/cron/root
 	chmod 600 /var/spool/cron/root
+	
+	echo -e "LANG=en_US.utf-8\nLC_ALL=en_US.utf-8" >/etc/environment
 	Print NL Success G
 }
 
