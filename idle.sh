@@ -22,7 +22,7 @@ Print() {
 
 SHUT() {
 	logger -t "IDLE SCRIPT" -i "Shutting down System"
-	init 0
+	/sbin/init 0
 }
 
 if [ `id -u` -ne 0 ]; then 
